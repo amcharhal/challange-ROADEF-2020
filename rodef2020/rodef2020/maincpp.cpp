@@ -26,7 +26,7 @@ int main() {
 			break;
 		}
 		if (check)
-			cout << "constraints are satisfied" << endl;
+			cout << "constraints are satisfie" << endl;
 	}
 
 
