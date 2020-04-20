@@ -1,4 +1,5 @@
 #include "Simulation.h"
+#include <algorithm>
 #include <stdlib.h>
 using namespace std;
 
@@ -21,6 +22,10 @@ std::vector<std::vector<int>> Simulation::getXsolution() const {
 
 std::vector<std::vector<int>> Simulation::getYsolution() const {
 	return ySolution;
+}
+
+std::vector<std::tuple<int, int, int >> Simulation::getExclusionSet() const {
+	return exclusionSet;
 }
 
 void Simulation::setYsolution() {
@@ -79,6 +84,10 @@ void Simulation::setXsolution() {
 	}
 }
 
+void Simulation::setExclusionSet() {
+
+}
+
 bool Simulation::checkConstraint(string name)
 {
 	if (name == "constraint_3")
@@ -130,6 +139,27 @@ bool Simulation::checkConstraint(string name)
 					return false;
 					break;
 				}
+			}
+		}
+	}
+	else if (name == "constraint_2")
+	{
+		for (int i = 0; i < numberOfInterventions; i++)
+		{
+			int max_durataion = *std::max_element(deltaInstances.at(i).begin(), deltaInstances.at(i).end());
+			for (int t = 0; t < T; t++)
+			{
+				int right_part = max_durataion * (1 - ySolution.at(i).at(t));
+				int leftSum = 0;
+				int sumPart1 = 0;
+				int sumPart2 = 0;
+				for (int t_p = 0; t_p < t - 1; t_p++)
+					sumPart1 += xSolution.at(i).at(t_p);
+				for (int t_p = t - 1 + deltaInstances.at(i).at(t); t_p<T; t_p++)
+					sumPart2 += xSolution.at(i).at(t_p);
+				int lefSum = sumPart1 + sumPart2;
+				if (lefSum > max_durataion)
+					return false;
 			}
 		}
 	}

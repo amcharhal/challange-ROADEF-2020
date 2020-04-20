@@ -123,12 +123,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Data.cpp" />
+    <ClCompile Include="Exclusion.cpp" />
+    <ClCompile Include="Instance.cpp" />
+    <ClCompile Include="Intervention.cpp" />
+    <ClCompile Include="JsonMap.cpp" />
     <ClCompile Include="maincpp.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="Seasons.cpp" />
     <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="Solution.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data.h" />
+    <ClInclude Include="Exclusion.h" />
+    <ClInclude Include="Instance.h" />
+    <ClInclude Include="Intervention.h" />
     <ClInclude Include="json.h" />
+    <ClInclude Include="JsonMap.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Seasons.h" />
     <ClInclude Include="Simulation.h" />
+    <ClInclude Include="Solution.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exemple1.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
