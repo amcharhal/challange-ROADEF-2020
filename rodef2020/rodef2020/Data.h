@@ -63,7 +63,8 @@ public:
 	double getComputationTime() const { return m_computationTime; }
 	double getWorkload(int a_i, int a_c, int a_t, int a_st) { return m_interventions[a_i]->getWorkload(a_c, a_t, a_st); }
 	double getrisk(int a_i, int a_s, int a_t, int a_st) { return m_interventions[a_i]->getRisk(a_s, a_t, a_st); }
-
+	std::map<std::string, int> getResourcesMap() { return m_resourcesMap; };
+	std::map<std::string, int> getInterventionsMap() { return m_interventionsMap; };
 private:
 	std::vector<Resource*> m_resources;
 	std::map<std::string, int> m_resourcesMap;	// (resource name, resource ID)
@@ -76,4 +77,5 @@ private:
 	double m_quantile;
 	double m_alpha;
 	double m_computationTime;
+	int m_numberOfResources;
 };
