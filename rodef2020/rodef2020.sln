@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rodef2020", "rodef2020\rode
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample-Test1", "Sample-Test1\Sample-Test1.vcxproj", "{67CC2E23-F620-4B0C-89C3-B94EDC4A6DFF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample-Test2", "Sample-Test2\Sample-Test2.vcxproj", "{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{67CC2E23-F620-4B0C-89C3-B94EDC4A6DFF}.Release|x64.Build.0 = Release|x64
 		{67CC2E23-F620-4B0C-89C3-B94EDC4A6DFF}.Release|x86.ActiveCfg = Release|Win32
 		{67CC2E23-F620-4B0C-89C3-B94EDC4A6DFF}.Release|x86.Build.0 = Release|Win32
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Debug|x64.ActiveCfg = Debug|x64
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Debug|x64.Build.0 = Debug|x64
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Debug|x86.ActiveCfg = Debug|Win32
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Debug|x86.Build.0 = Debug|Win32
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Release|x64.ActiveCfg = Release|x64
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Release|x64.Build.0 = Release|x64
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Release|x86.ActiveCfg = Release|Win32
+		{85F80BAC-FD2E-41ED-A0E8-3A156F9780A8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
