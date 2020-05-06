@@ -51,9 +51,13 @@ public:
 
 	Resource* getResource(int a_resourceId) const { return m_resources[a_resourceId]; }
 	int getNbResources() const { return m_resources.size(); }
-	Seasons* getSeasons() { return &m_seasons; }
+	int getResourceId(const std::string& ar_resourceName) const { return m_resourcesMapNameId.find(ar_resourceName)->second; }
+	std::string getResourceName(int a_resourceId) const { return m_resourcesMapIdName.find(a_resourceId)->second; }
+	Seasons *getSeasons()   { return &m_seasons; } 
 	Intervention* getIntervention(int a_interventionId) const { return m_interventions[a_interventionId]; }
 	int getNbInterventions() const { return m_interventions.size(); }
+	int getInterventionId(const std::string& ar_interventionName) const { return m_interventionsMapNameId.find(ar_interventionName)->second; }
+	std::string getInterventionName(int a_interventionId) const { return m_interventionsMapIdName.find(a_interventionId)->second; }
 	Exclusion* getExclusion(int a_exclusionId) const { return m_exclusions[a_exclusionId]; }
 	int getNbExclusions() const { return m_exclusions.size(); }
 	int getT() const { return m_T; }
@@ -63,19 +67,25 @@ public:
 	double getComputationTime() const { return m_computationTime; }
 	double getWorkload(int a_i, int a_c, int a_t, int a_st) { return m_interventions[a_i]->getWorkload(a_c, a_t, a_st); }
 	double getrisk(int a_i, int a_s, int a_t, int a_st) { return m_interventions[a_i]->getRisk(a_s, a_t, a_st); }
-	std::map<std::string, int> getResourcesMap() { return m_resourcesMap; };
-	std::map<std::string, int> getInterventionsMap() { return m_interventionsMap; };
+	std::map<std::string, int> getResourcesMap() { return m_resourcesMapNameId; };
+	std::map<int, std::string> getResourcesMapId() { return m_resourcesMapIdName; };
+	std::map<std::string, int> getInterventionsMap() { return m_interventionsMapNameId; };
+	std::map<int, std::string> getExclusionMap() const { return m_exclusionsMapIdName; };
+
 private:
 	std::vector<Resource*> m_resources;
-	std::map<std::string, int> m_resourcesMap;	// (resource name, resource ID)
+	std::map<std::string, int> m_resourcesMapNameId;	// (resource name, resource ID)
+	std::map<int, std::string> m_resourcesMapIdName;	// (resource ID, resource name)
 	Seasons m_seasons;
 	std::vector<Intervention*> m_interventions;
-	std::map<std::string, int> m_interventionsMap;	// (intervention name, intervention ID)
+	std::map<std::string, int> m_interventionsMapNameId;	// (intervention name, intervention ID)
+	std::map<int, std::string> m_interventionsMapIdName;	// (intervention ID, intervention name)
+	std::map<std::string, int> m_exclusionsMapNameId;
+	std::map<int, std::string> m_exclusionsMapIdName;
 	std::vector<Exclusion*> m_exclusions;
 	int m_T;
 	std::vector<int> m_scenariosNumber;
 	double m_quantile;
 	double m_alpha;
 	double m_computationTime;
-	int m_numberOfResources;
 };

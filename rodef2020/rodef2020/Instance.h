@@ -17,12 +17,12 @@ public:
 	std::string getInputFile() const { return m_inputFile; }
 	JsonMap* getJsonMap() const { return mp_jsonMap; }
 	Data* getData() const { return mp_data; }
-	Solution getSolution() const { return m_solution; }
+	Solution& getBestSolution() { return m_bestSolution; }
 
 	void solve();
 private:
 	std::string m_inputFile;
 	JsonMap* mp_jsonMap;
 	Data* mp_data;
-	Solution m_solution;
+	Solution m_bestSolution;
 };

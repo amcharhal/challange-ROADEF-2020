@@ -11,7 +11,5 @@ private:
 public:
 	JsonMap(const std::string &ar_inputFile);
 	json *getJson();
-
-	
 };
 

@@ -80,5 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="exemple1.json" />
+    <None Include="A_01.json" />
   </ItemGroup>
 </Project>
