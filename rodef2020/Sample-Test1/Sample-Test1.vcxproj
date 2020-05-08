@@ -50,8 +50,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\rodef2020\A_01.json" />
-    <None Include="..\rodef2020\exemple1.json" />
+    <None Include="A_01.json" />
+    <None Include="A_02.json" />
+    <None Include="A_03.json" />
+    <None Include="A_04.json" />
+    <None Include="A_05.json" />
+    <None Include="A_06.json" />
+    <None Include="A_07.json" />
+    <None Include="A_08.json" />
+    <None Include="A_09.json" />
+    <None Include="A_10.json" />
+    <None Include="A_11.json" />
+    <None Include="A_12.json" />
+    <None Include="A_13.json" />
+    <None Include="A_14.json" />
+    <None Include="A_15.json" />
+    <None Include="example1.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemDefinitionGroup />

@@ -13,7 +13,7 @@ using namespace std;
 
 Data* CreateData()
 {
-	std::string fileName = "exemple1.json";
+	std::string fileName = "example1.json";
 	Instance myinstance = Instance(fileName);
 	Data *data = myinstance.getData();
 	return data;
@@ -32,7 +32,7 @@ class InstanceExemple1Test : public testing::Test
 public:
 	InstanceExemple1Test()
 	{
-		std::string fileName = "exemple1.json";
+		std::string fileName = "example1.json";
 		Instance myinstance(fileName);
 		Data *data = myinstance.getData();
 		_dataExemple1 = new Data(*data);
@@ -213,7 +213,7 @@ TEST_F(InstanceExemple1Test, scenariosNumber) {
 }
 
 TEST(TestExemple1, dataParsing) {
-	string fileName = "exemple1.json";
+	string fileName = "example1.json";
 	//create data under dataExemple1 name
 	Instance myinstance(fileName);
 	Data *dataExemple1 = myinstance.getData();
@@ -421,7 +421,7 @@ TEST(TestA_04, A_04) {
 }*/
 
 TEST(TestA_05, A_05) {
-	std::string file = "A_03.json";
+	std::string file = "A_04.json";
 	Instance myinstance(file);
 	json *expectedjson = myinstance.getJsonMap()->getJson();
 	Data *data = myinstance.getData();

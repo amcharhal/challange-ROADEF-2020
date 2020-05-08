@@ -143,9 +143,9 @@ Data::Data(JsonMap& ar_json)
 
 				m_interventionsMapNameId[ar_name] = intervention_Id;
 				m_interventionsMapIdName[intervention_Id] = ar_name;
-				vector<double> emptyArray(m_T, 0);
-				vector<vector<double>> time_periodArray(m_T, emptyArray);
-				std::vector<std::vector<std::vector<double>>> *ap_workloads = new std::vector<std::vector<std::vector<double>>>(getNbResources(), time_periodArray);
+				//vector<double> emptyArray = new (m_T, 0);
+				//vector<vector<double>> time_periodArray(m_T, emptyArray);
+				std::vector<std::vector<std::vector<double>>> *ap_workloads = new std::vector<std::vector<std::vector<double>>>(getNbResources());
 				std::vector<std::vector<std::vector<double>>> *ap_risks = new std::vector<std::vector<std::vector<double>>>(m_T);
 				int a_tmax;
 				vector<int> ar_delta;
@@ -168,21 +168,23 @@ Data::Data(JsonMap& ar_json)
 						for (json::iterator ic = ip_t.value().begin(); ic != ip_t.value().end(); ++ic)
 						{
 							int realResourceID = m_resourcesMapNameId[ic.key()];
-							vector<double> emptyArray(m_T, 0);
-							vector<vector<double>> time_periodArray(m_T, emptyArray);
+							//vector<double> emptyArray(m_T, 0);
+							vector<vector<double>> *time_periodArray = new vector<vector<double>>(m_T);
 							for (json::iterator it_p = ic.value().begin(); it_p != ic.value().end(); ++it_p)
 							{
 								int time_period = stoi(it_p.key());
-								vector<double> workload_array(m_T, 0);
+								vector<double> *workload_array = new vector<double>(m_T);
 								for (json::iterator it_s = it_p.value().begin(); it_s != it_p.value().end(); ++it_s)
 								{
 									int start_time = stoi(it_s.key());
 									double workload = it_s.value().get<double>();
-									workload_array[start_time - 1] = workload;
+									(*workload_array)[start_time - 1] = workload;
 								}
-								time_periodArray[time_period - 1] = workload_array;
+								(*time_periodArray)[time_period - 1] = *workload_array;
+								delete workload_array;
 							}
-							ap_workloads->at(realResourceID) = time_periodArray;
+							ap_workloads->at(realResourceID) = *time_periodArray;
+							delete time_periodArray;
 						}
 					}
 					else if (ip_t.key() == "risk")
@@ -191,16 +193,17 @@ Data::Data(JsonMap& ar_json)
 						{
 							int time_period = stoi(ip_tp.key());
 							int scenariosNumberAt_t = m_scenariosNumber[time_period - 1];
-							vector<double> emptyArray(scenariosNumberAt_t, 0);
-							vector<vector<double>> time_periodArray(m_T,emptyArray);
+							//vector<double> emptyArray(scenariosNumberAt_t, 0);
+							vector<vector<double>> *time_periodArray = new vector<vector<double>>(m_T);
 							for (json::iterator ip_ts = ip_tp.value().begin(); ip_ts != ip_tp.value().end(); ++ip_ts)
 							{
 								vector<double> risk_array(scenariosNumberAt_t);
 								int start_time = stoi(ip_ts.key());
 								risk_array = ip_ts.value().get<vector<double>>();
-								time_periodArray[start_time - 1] = risk_array;
+								(*time_periodArray)[start_time - 1] = risk_array;
 							}
-							ap_risks->at(time_period - 1) = time_periodArray;
+							ap_risks->at(time_period - 1) = *time_periodArray;
+							delete time_periodArray;
 						}
 					}
 				}
@@ -215,7 +218,7 @@ Data::Data(JsonMap& ar_json)
 	int exclusionId = 0;
 	for (json::iterator ip = itExc.value().begin(); ip != itExc.value().end(); ++ip)
 	{
-		
+
 		m_exclusionsMapNameId[ip.key()] = exclusionId;
 		m_exclusionsMapIdName[exclusionId] = ip.key();
 		//int i1 = stoi(ip.value()[0].get<string>().substr(1));
