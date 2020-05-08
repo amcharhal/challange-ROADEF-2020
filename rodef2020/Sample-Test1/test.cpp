@@ -30,13 +30,13 @@ vector<string>  convertVector(const vector<int> &arr) {
 class InstanceExemple1Test : public testing::Test
 {
 public:
-	InstanceExemple1Test() 
+	InstanceExemple1Test()
 	{
 		std::string fileName = "exemple1.json";
 		Instance myinstance(fileName);
-		Data *data =  myinstance.getData();
+		Data *data = myinstance.getData();
 		_dataExemple1 = new Data(*data);
-		
+
 	}
 
 	Data* _dataExemple1;
@@ -44,7 +44,6 @@ public:
 
 
 class SerializeJson {
-
 public:
 	SerializeJson(Data &data) {
 		std::vector<string> keys{ "Resources","Seasons","Interventions",  "Exclusions", "T",  "Scenarios_number", "Quantile", "Alpha", "ComputationTime" };
@@ -75,8 +74,8 @@ public:
 				s_season = "is";
 			else if (season = SUMMER)
 				s_season = "summer";
-				;
-			serializedJson["Exclusions"][exclusionMap[exclusionId]] = { a_I1, a_I2, s_season};
+			;
+			serializedJson["Exclusions"][exclusionMap[exclusionId]] = { a_I1, a_I2, s_season };
 		}
 		//season
 		serializedJson["Seasons"]["winter"] = convertVector(*data.getSeasons()->getWinter());
@@ -86,8 +85,8 @@ public:
 			serializedJson["Seasons"]["full"] = *data.getSeasons()->getSummer();
 		//Scenarios_number
 		vector<int> Scenarios_number(data.getT());
-			for (int i = 0; i < data.getT(); i++)
-				Scenarios_number[i] = data.getScenariosNumber(i + 1);
+		for (int i = 0; i < data.getT(); i++)
+			Scenarios_number[i] = data.getScenariosNumber(i + 1);
 		serializedJson["Scenarios_number"] = Scenarios_number;
 		//resources 
 		map<int, string> resourcesMapId = data.getResourcesMapId();
@@ -97,15 +96,14 @@ public:
 			serializedJson["Resources"][resourcesMapId[resourcesId]]["max"] = data.getResource(resourcesId)->getMax();
 		}
 		//interventons
-		for (int interventionId = 0; interventionId <data.getNbInterventions(); interventionId++)
+		for (int interventionId = 0; interventionId < data.getNbInterventions(); interventionId++)
 		{
 			string interventionName = data.getIntervention(interventionId)->getName();
 			serializedJson["Interventions"][interventionName]["tmax"] = to_string(data.getIntervention(interventionId)->getTMax());
 			vector<int> delta(data.getT());
 			for (int i = 0; i < data.getT(); i++)
-				delta[i] = data.getIntervention(interventionId)->getDelta(i+1);
+				delta[i] = data.getIntervention(interventionId)->getDelta(i + 1);
 			serializedJson["Interventions"][interventionName]["Delta"] = delta;
-			vector<vector<vector<double>>> *worload = data.getIntervention(interventionId)->getWorkloads();
 			for (int resource = 0; resource < data.getNbResources(); resource++)
 			{
 				for (int time_period = 0; time_period < data.getT(); time_period++)
@@ -118,7 +116,31 @@ public:
 					}
 				}
 			}
+			for (int time_period = 0; time_period < data.getT(); time_period++)
+			{
+				for (int start_time = 0; start_time < data.getT(); start_time++)
+				{
+					vector<double> risk(data.getScenariosNumber(time_period + 1), 0);
+					for (int scenario = 0; scenario < data.getScenariosNumber(time_period + 1); scenario++)
+					{
+						risk[scenario] = data.getIntervention(interventionId)->getRisk(time_period + 1, start_time + 1, scenario);
+					}
+					bool isEmpty = true;
+					for (double el : risk)
+					{
+						if (el > 0)
+							isEmpty = false;
+						break;
+					}
+					if (!isEmpty)
+					{
+						serializedJson["Interventions"][interventionName]["risk"][to_string(time_period + 1)][to_string(start_time + 1)] =
+							risk;
 
+					}
+
+				}
+			}
 
 		};
 	};
@@ -132,7 +154,7 @@ private:
 Test Plan
 
 Test all attributs in Data.h
-**********these test are separated 
+**********these test are separated
 ->m_alpha
 ->m_quantile
 ->m_numberOfresources
@@ -142,11 +164,11 @@ Test all attributs in Data.h
 ->nbbOfInterventions
 ->scenariosNumber
 
-// dataparsing test contains tests for resources , iterventions , seasons, Exclusions  
+// dataparsing test contains tests for resources , iterventions , seasons, Exclusions
 
 resources -> (Map(name, ID), min , max
 interventions ->  Map(name, ID), delta, getWorkload, getRisks)
-Exclusions -> I1, I2, Season 
+Exclusions -> I1, I2, Season
 Season ->FULL, Summer, Winter, Is enum
 
 
@@ -208,13 +230,13 @@ TEST(TestExemple1, dataParsing) {
 	EXPECT_EQ(resource->getMax(), ex_max);
 	EXPECT_EQ(ex_reourcesMap, dataExemple1->getResourcesMap());
 	//test Seasons 
-	vector<int> ex_Full{1, 2, 3 };
+	vector<int> ex_Full{ 1, 2, 3 };
 	Seasons *season = dataExemple1->getSeasons();
-	EXPECT_EQ(ex_Full,*(season->getFull()));
+	EXPECT_EQ(ex_Full, *(season->getFull()));
 	EXPECT_EQ(0, season->getWinter()->size());
 	EXPECT_EQ(0, season->getSummer()->size());
 	EXPECT_EQ(0, season->getIs()->size());
-	
+
 	//test exclusion
 	Exclusion* exclusion = dataExemple1->getExclusion(0);
 	enum E_Season { WINTER, SUMMER, IS, FULL };
@@ -233,38 +255,38 @@ TEST(TestExemple1, dataParsing) {
 	Intervention *intervention_1 = dataExemple1->getIntervention(0);
 	EXPECT_EQ("I1", intervention_1->getName());
 	EXPECT_EQ(1, intervention_1->getTMax());
-	vector<int> ex_deltaI1 = {3, 3, 2};
-	for (int i = 0; i < ex_deltaI1.size() ; i++)
-		EXPECT_EQ(ex_deltaI1[i], intervention_1->getDelta(i+1));
-	
+	vector<int> ex_deltaI1 = { 3, 3, 2 };
+	for (int i = 0; i < ex_deltaI1.size(); i++)
+		EXPECT_EQ(ex_deltaI1[i], intervention_1->getDelta(i + 1));
+
 	//wtest workload for intervention 1
 	vector<vector<vector<double>>> ex_workload_1 = { { {31,0,0}, {0,0,0}, {8,0,0} } };
 	for (int a_c = 0; a_c < dataExemple1->getNbResources(); a_c++)
 	{
 		for (int a_t = 0; a_t < dataExemple1->getT(); a_t++)
 		{
-			for (int a_s = 0; a_s< dataExemple1->getT(); a_s++)
-				EXPECT_EQ(ex_workload_1.at(a_c).at(a_t).at(a_s), intervention_1->getWorkload(a_c,a_t+1,a_s+1));
+			for (int a_s = 0; a_s < dataExemple1->getT(); a_s++)
+				EXPECT_EQ(ex_workload_1.at(a_c).at(a_t).at(a_s), intervention_1->getWorkload(a_c, a_t + 1, a_s + 1));
 		}
 	}
-	
+
 	//test risk for intervention 1
-	vector<vector<vector<double>>> ex_risk_1 = { { {7,4,8}, {0,0,0}, {0,0,0} }, 
+	vector<vector<vector<double>>> ex_risk_1 = { { {7,4,8}, {0,0,0}, {0,0,0} },
 												 { {1,10,10}, {0,0,0}, {0,0,0} },
-												 { {1,4,4}, {0,0,0}, {0,0,0} }};
-	
+												 { {1,4,4}, {0,0,0}, {0,0,0} } };
+
 	vector<vector<vector<double>>> *vec = intervention_1->getRisks();
-	
+
 
 	for (int a_c = 0; a_c < dataExemple1->getT(); a_c++)
 	{
 		for (int a_t = 0; a_t < dataExemple1->getT(); a_t++)
 		{
-			for (int a_s = 0; a_s < dataExemple1->getScenariosNumber(a_c+1); a_s++)
-				EXPECT_EQ(ex_risk_1.at(a_c).at(a_t).at(a_s), intervention_1->getRisk(a_c+1, a_t+1, a_s));
+			for (int a_s = 0; a_s < dataExemple1->getScenariosNumber(a_c + 1); a_s++)
+				EXPECT_EQ(ex_risk_1.at(a_c).at(a_t).at(a_s), intervention_1->getRisk(a_c + 1, a_t + 1, a_s));
 		}
 	}
-	
+
 	// ******************************************* test for intervention 2
 	Intervention *intervention_2 = dataExemple1->getIntervention(1);
 	EXPECT_EQ("I2", intervention_2->getName());
@@ -293,7 +315,7 @@ TEST(TestExemple1, dataParsing) {
 		for (int a_t = 0; a_t < dataExemple1->getT(); a_t++)
 		{
 			for (int a_s = 0; a_s < dataExemple1->getT(); a_s++)
-				EXPECT_EQ(ex_risk_2.at(a_c).at(a_t).at(a_s), intervention_2->getRisk(a_c+1, a_t + 1, a_s));
+				EXPECT_EQ(ex_risk_2.at(a_c).at(a_t).at(a_s), intervention_2->getRisk(a_c + 1, a_t + 1, a_s));
 		}
 	}
 
@@ -325,13 +347,81 @@ TEST(TestExemple1, dataParsing) {
 		for (int a_t = 0; a_t < dataExemple1->getT(); a_t++)
 		{
 			for (int a_s = 0; a_s < dataExemple1->getT(); a_s++)
-				EXPECT_EQ(ex_risk_3.at(a_c).at(a_t).at(a_s), intervention_3->getRisk(a_c+1, a_t + 1, a_s));
+				EXPECT_EQ(ex_risk_3.at(a_c).at(a_t).at(a_s), intervention_3->getRisk(a_c + 1, a_t + 1, a_s));
 		}
 	}
-}
+};
 
+/*
 TEST(TestA1, A1) {
 	std::string file = "A_01.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		ASSERT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		ASSERT_EQ(1, 0);
+	}
+
+}
+
+TEST(TestA_02, A_02) {
+	std::string file = "A_02.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		ASSERT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		ASSERT_EQ(1, 0);
+	}
+
+}
+TEST(TestA_03, A_03) {
+	std::string file = "A_03.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		ASSERT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		ASSERT_EQ(1, 0);
+	}
+
+}
+TEST(TestA_04, A_04) {
+	std::string file = "A_04.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+
+
+}*/
+
+TEST(TestA_05, A_05) {
+	std::string file = "A_03.json";
 	Instance myinstance(file);
 	json *expectedjson = myinstance.getJsonMap()->getJson();
 	Data *data = myinstance.getData();
@@ -342,12 +432,12 @@ TEST(TestA1, A1) {
 		EXPECT_EQ(0, 0);
 	else {
 		cout << json::diff(*expectedjson, *serializedJson) << endl;
-		//cout << (*serializedJson)["Seasons"]["winter"] << endl;
 		EXPECT_EQ(1, 0);
 	}
-	
-}
 
+}
+// green test 1,2,3,7,8,13
+//red test 4,5,6,9,10,11,12,14,15
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
