@@ -60,6 +60,7 @@ public:
 		serializedJson["ComputationTime"] = data.getComputationTime();
 		// Excusions
 		map<int, string> exclusionMap = data.getExclusionMap();
+		serializedJson["Exclusions"] = json({});
 		for (int exclusionId = 0; exclusionId < data.getNbExclusions(); exclusionId++)
 		{
 			string a_I1 = data.getInterventionName(data.getExclusion(exclusionId)->getI1());
@@ -81,8 +82,8 @@ public:
 		serializedJson["Seasons"]["winter"] = convertVector(*data.getSeasons()->getWinter());
 		serializedJson["Seasons"]["is"] = convertVector(*data.getSeasons()->getIs());
 		serializedJson["Seasons"]["summer"] = convertVector(*data.getSeasons()->getSummer());
-		if (!data.getSeasons()->getSummer()->empty())
-			serializedJson["Seasons"]["full"] = *data.getSeasons()->getSummer();
+		if (!data.getSeasons()->getFull()->empty())
+			serializedJson["Seasons"]["full"] = convertVector (*data.getSeasons()->getFull());
 		//Scenarios_number
 		vector<int> Scenarios_number(data.getT());
 		for (int i = 0; i < data.getT(); i++)
@@ -352,7 +353,7 @@ TEST(TestExemple1, dataParsing) {
 	}
 };
 
-/*
+
 TEST(TestA1, A1) {
 	std::string file = "A_01.json";
 	Instance myinstance(file);
@@ -402,8 +403,8 @@ TEST(TestA_03, A_03) {
 	}
 
 }
-TEST(TestA_04, A_04) {
-	std::string file = "A_04.json";
+TEST(TestA_05, A_05) {
+	std::string file = "A_05.json";
 	Instance myinstance(file);
 	json *expectedjson = myinstance.getJsonMap()->getJson();
 	Data *data = myinstance.getData();
@@ -418,10 +419,10 @@ TEST(TestA_04, A_04) {
 	}
 
 
-}*/
+}
 
-TEST(TestA_05, A_05) {
-	std::string file = "A_04.json";
+TEST(TestA_06, A_06) {
+	std::string file = "A_06.json";
 	Instance myinstance(file);
 	json *expectedjson = myinstance.getJsonMap()->getJson();
 	Data *data = myinstance.getData();
@@ -436,8 +437,148 @@ TEST(TestA_05, A_05) {
 	}
 
 }
-// green test 1,2,3,7,8,13
-//red test 4,5,6,9,10,11,12,14,15
+
+TEST(TestA_07, A_07) {
+	std::string file = "A_07.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+
+}
+TEST(TestA_08, A_08) {
+	std::string file = "A_08.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+
+}
+TEST(TestA_09, A_09) {
+	std::string file = "A_09.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+
+}
+TEST(TestA_10, A_10) {
+	std::string file = "A_10.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+}
+TEST(TestA_11, A_11) {
+	std::string file = "A_11.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+}
+
+TEST(TestA_12, A_12) {
+	std::string file = "A_12.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+}
+TEST(TestA_13, A_13) {
+	std::string file = "A_13.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+}
+TEST(TestA_14, A_14) {
+	std::string file = "A_14.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (json::diff(*expectedjson, *serializedJson).size() == 0 && json::diff(*serializedJson, *expectedjson).size() == 0)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+}
+
+TEST(TestA_15, A_15) {
+	std::string file = "A_15.json";
+	Instance myinstance(file);
+	json *expectedjson = myinstance.getJsonMap()->getJson();
+	Data *data = myinstance.getData();
+	//serialized file 
+	SerializeJson serializeobject(*data);
+	json *serializedJson = serializeobject.getSerializedJson();
+	if (*expectedjson == *serializedJson)
+		EXPECT_EQ(0, 0);
+	else {
+		cout << json::diff(*expectedjson, *serializedJson) << endl;
+		EXPECT_EQ(1, 0);
+	}
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
