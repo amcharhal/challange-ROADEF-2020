@@ -21,11 +21,15 @@ public:
 	double getObj2() const { return m_obj2; }
 	double getObjective() const { return m_objective; }
 	void setStartingTime(int a_i, int a_t) { m_startingTimes[a_i] = a_t; }
+	void setStartingTime(std::vector<int> *solution) { m_startingTimes = *solution; }
 	void setXit(int a_i, int a_t, bool a_val) { m_xit[a_i][a_t-1] = a_val; }
-
+	void setXit(std::vector<int> *solution);
+	std::vector<std::vector<bool>> getx_it() { return m_xit; };
+	std::vector<int>  getstartingTimes() { return m_startingTimes; };
 	void saveSolution(const std::string& ar_outputFile) const;	
 	void computeObjectives();		
 	bool isFeasible() const;
+	
 
 private:
 	Data* mp_data;

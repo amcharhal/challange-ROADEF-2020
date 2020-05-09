@@ -21,9 +21,36 @@ Solution::Solution(Data* ap_data):
 	}
 }
 
+void Solution::setXit(std::vector<int>* solution)
+{
+
+	for (int i = 0; i < mp_data->getNbInterventions(); i++)
+	{
+		int y_it;
+		int wantedInex;
+		vector<bool> tempX(mp_data->getT(), false);
+		for (int t =0 ; t < mp_data->getT(); t++)
+		{
+			if(t + 1 == solution->at(i))
+				y_it = 1;
+			else
+				y_it = 0;
+			if (y_it == 1)
+				wantedInex = t;
+		}
+		int delta_it = mp_data->getIntervention(i)->getDelta(wantedInex+1);
+		for (int k = 0; k < delta_it; k++)
+		{
+			if((k + wantedInex) < mp_data->getT())
+				tempX[k + wantedInex] = true;
+		}
+		m_xit.at(i) =tempX;
+	}
+}
+
 void Solution::saveSolution(const std::string& ar_outputFile) const
 {
-	string path = OUTPUT_FOLDER + ar_outputFile;
+	string path = ar_outputFile;
 	ofstream stream(path.c_str());
 	if (stream)
 	{
@@ -41,6 +68,13 @@ void Solution::saveSolution(const std::string& ar_outputFile) const
 
 void Solution::computeObjectives()
 {
+	m_risk_st.clear();
+	m_risk_t.clear();
+	m_obj1 = 0;									
+	m_Q_tau_t.clear() ;				
+	m_Excess_tau_t.clear();
+	m_obj2 = 0;									
+	m_objective = 0;
 	computeRisk_st();
 	computeRisk_t();
 	computeObj1();
@@ -62,7 +96,7 @@ bool Solution::isFeasible() const
 			return false;
 		}
 	}
-	cout << "1.2 ok" << endl;
+	//cout << "1.2 ok" << endl;
 
 	// 1.3. No work left
 	for (int i = 0; i < mp_data->getNbInterventions(); i++)
@@ -72,9 +106,9 @@ bool Solution::isFeasible() const
 			return false;
 		}
 	}
-	cout << "1.3 ok" << endl;
+	//cout << "1.3 ok" << endl;
 
-	// 1.1. Non-preemptive scheduling
+	//// 1.1. Non-preemptive scheduling
 	for (int i = 0; i < mp_data->getNbInterventions(); i++)
 	{
 		for (int t = 1; t <= T; t++)
@@ -95,7 +129,7 @@ bool Solution::isFeasible() const
 			}
 		}
 	}
-	cout << "1.1 ok" << endl;
+	//cout << "1.1 ok" << endl;
 	
 
 	// 2. Resource constraints
@@ -109,15 +143,15 @@ bool Solution::isFeasible() const
 				rct += m_xit[i][t-1] * mp_data->getIntervention(i)->getWorkload(c, t, m_startingTimes[i]);
 			}
 
-			cout << "resource (" << c << "," << t << ") : " << mp_data->getResource(c)->getMin(t) << " <= " <<
-				rct << " <= " << mp_data->getResource(c)->getMax(t) << "?" << endl;
+			//cout << "resource (" << c << "," << t << ") : " << mp_data->getResource(c)->getMin(t) << " <= " <<
+				//rct << " <= " << mp_data->getResource(c)->getMax(t) << "?" << endl;
 			if (rct < mp_data->getResource(c)->getMin(t) || rct > mp_data->getResource(c)->getMax(t))
 			{
 				return false;
 			}
 		}
 	}
-	cout << "2. ok" << endl;
+	//cout << "2. ok" << endl;
 
 
 	// 3. Disjunctive constraints
@@ -128,7 +162,7 @@ bool Solution::isFeasible() const
 		int i2 = p_exc->getI2();
 		E_Season season = p_exc->getSeason();
 
-		cout << "(" << i1 << "," << i2 << "," << season << ")" << endl;
+		//cout << "(" << i1 << "," << i2 << "," << season << ")" << endl;
 
 		switch (season)
 		{
@@ -170,7 +204,7 @@ bool Solution::isFeasible() const
 			break;
 		}
 	}
-	cout << "3 ok" << endl;
+	//cout << "3 ok" << endl;
 
 	// all constraints checked
 	return true;

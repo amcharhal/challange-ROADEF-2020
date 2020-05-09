@@ -20,12 +20,14 @@ void Instance::solve()
 {
 	m_bestSolution = Solution(mp_data);
 	m_bestSolution.setStartingTime(0, 1);
+	
 	m_bestSolution.setStartingTime(1, 1);
 	m_bestSolution.setStartingTime(2, 2);
-
-	m_bestSolution.setXit(0, 1, true);
-	m_bestSolution.setXit(0, 2, true);
-	m_bestSolution.setXit(0, 3, true);
-	m_bestSolution.setXit(1, 1, true);
-	m_bestSolution.setXit(2, 2, true);
+	vector<int> y{ 1,1,2 };
+	m_bestSolution.setXit(&y);
+	//m_bestSolution.setXit(0, 1, true);
+	//m_bestSolution.setXit(0, 2, true);
+	//m_bestSolution.setXit(0, 3, true);
+	//m_bestSolution.setXit(1, 1, true);
+	//m_bestSolution.setXit(2, 2, true);
 }

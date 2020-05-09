@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include<ctime>
 #include<algorithm>
+#include "SimulatedAnnealing.h"
 
 using namespace std;
 
@@ -37,11 +38,11 @@ int main()
 	//}
 	//cout << "Instance initialization finished" << endl;
 
-	cout << "Instance initialization starts" << endl;
+	//cout << "Instance initialization starts" << endl;
 	//Instance inst("A_01.json");
-	Instance inst("exemple1.json");
-	cout << "Instance initialization finished" << endl << endl;
-	inst.solve();
+	
+	//cout << "Instance initialization finished" << endl << endl;
+	//inst.solve();
 	/*cout << "Is the solution feasible ? " << inst.getBestSolution().isFeasible() << endl << endl;
 	inst.getBestSolution().saveSolution("exemple1.txt");*/
 	/*
@@ -70,6 +71,61 @@ int main()
 	{
 		cout << "not equal" << endl;
 	}*/
+	/*
+	srand(static_cast<unsigned int>(time(static_cast<time_t>(NULL))));
+	
+	for (int i= 0; i < 10; i++) {
+		//inst.solve();
+		//cout << "Is the solution feasible ? " << inst.getBestSolution().isFeasible() << endl << endl;
+		//inst.getBestSolution().saveSolution("exemple1.txt");
+		vector<int> *initsolution = algorithm.initialSolution();
+
+		inst.getBestSolution().setStartingTime(initsolution);
+		inst.getBestSolution().setXit(initsolution);
+		inst.getBestSolution().computeObjectives();
+		//cout << "mean risk over time: " << inst.getBestSolution().getRisk_t() << endl;
+		//cout << "Objective 1 (mean cost): " << inst.getBestSolution().getObj1() << endl;
+		//cout << "Quantile (Q" << inst.getData()->getQuantile() << ") over time: " << inst.getBestSolution().getQ_tau_t() << endl;
+		//cout << "Objective 2 (expected excess (Q" << inst.getData()->getQuantile() << ")): " << inst.getBestSolution().getObj2() << endl;
+		cout << inst.getBestSolution().getObjective() << endl;
+		}
+	*/
+	cout << "start read file" << endl;
+	Instance inst("A_10.json");
+	cout << "reading file is done" << endl;
+	SimulatedAnnealing algorithm(&inst);
+
+	srand(static_cast<unsigned int>(time(static_cast<time_t>(NULL))));
+	algorithm.setInitialTemperature(100000);
+	Solution mysol(inst.getData());
+	/*for (int i = 0; i < 200; i++)
+	{
+		
+		vector<int> *initsolution = algorithm.initialSolution();
+		vector<int> *newSolution = algorithm.selectNeighbour(initsolution);
+		for (auto e : *newSolution)
+			cout << e << " ";
+		cout << endl;
+	}*/
+	/*for(int i=0; i<200;i++)
+	{ 
+		
+		int nbInervention = inst.getData()->getNbInterventions();
+		int T = inst.getData()->getT();
+		
+		vector<int> *initsolution = algorithm.initialSolution();
+
+		mysol.setStartingTime(initsolution);
+		mysol.setXit(initsolution);
+		mysol.computeObjectives();
+		cout << mysol.getObjective() << " ";
+		cout << endl;
+			
+	}*/
+	cout << "start local search" << endl;
+	algorithm.solveProblem();
+	mysol.setStartingTime(algorithm.getBestSolution());
+	mysol.saveSolution("A_10.txt"); 
 	return 0;
 }
 
