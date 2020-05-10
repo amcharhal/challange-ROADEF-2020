@@ -45,6 +45,9 @@
     <ClCompile Include="Solution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SimulatedAnnealing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json.h">
@@ -77,9 +80,28 @@
     <ClInclude Include="Solution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SimulatedAnnealing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="exemple1.json" />
     <None Include="A_01.json" />
+    <None Include="..\Sample-Test1\example1.json" />
+    <None Include="..\Sample-Test1\A_01.json" />
+    <None Include="..\Sample-Test1\A_02.json" />
+    <None Include="..\Sample-Test1\A_03.json" />
+    <None Include="..\Sample-Test1\A_04.json" />
+    <None Include="..\Sample-Test1\A_05.json" />
+    <None Include="..\Sample-Test1\A_06.json" />
+    <None Include="..\Sample-Test1\A_07.json" />
+    <None Include="..\Sample-Test1\A_08.json" />
+    <None Include="..\Sample-Test1\A_09.json" />
+    <None Include="..\Sample-Test1\A_10.json" />
+    <None Include="..\Sample-Test1\A_11.json" />
+    <None Include="..\Sample-Test1\A_12.json" />
+    <None Include="..\Sample-Test1\A_13.json" />
+    <None Include="..\Sample-Test1\A_14.json" />
+    <None Include="..\Sample-Test1\A_15.json" />
   </ItemGroup>
 </Project>
