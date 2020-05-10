@@ -34,8 +34,7 @@ Data::Data(JsonMap& ar_json)
 			string ar_name = it_resources.key();
 			vector<double> ar_min;
 			vector<double> ar_max;
-			m_resourcesMapNameId[ar_name] = resourceID;
-			m_resourcesMapIdName[resourceID] = ar_name;
+			m_resourcesMap[ar_name] = resourceID;
 			if (it_resources.value().contains("min"))
 				ar_min = it_resources.value()["min"].get<vector<double>>();
 			if (it_resources.value().contains("max"))
@@ -141,8 +140,7 @@ Data::Data(JsonMap& ar_json)
 			{
 				string ar_name = ip.key();
 
-				m_interventionsMapNameId[ar_name] = intervention_Id;
-				m_interventionsMapIdName[intervention_Id] = ar_name;
+				m_interventionsMap[ar_name] = intervention_Id;
 				//vector<double> emptyArray = new (m_T, 0);
 				//vector<vector<double>> time_periodArray(m_T, emptyArray);
 				std::vector<std::vector<std::vector<double>>> *ap_workloads = new std::vector<std::vector<std::vector<double>>>(getNbResources());
@@ -167,7 +165,7 @@ Data::Data(JsonMap& ar_json)
 					{
 						for (json::iterator ic = ip_t.value().begin(); ic != ip_t.value().end(); ++ic)
 						{
-							int realResourceID = m_resourcesMapNameId[ic.key()];
+							int realResourceID = m_resourcesMap[ic.key()];
 							//vector<double> emptyArray(m_T, 0);
 							vector<vector<double>> *time_periodArray = new vector<vector<double>>(m_T);
 							for (json::iterator it_p = ic.value().begin(); it_p != ic.value().end(); ++it_p)
@@ -218,13 +216,11 @@ Data::Data(JsonMap& ar_json)
 	int exclusionId = 0;
 	for (json::iterator ip = itExc.value().begin(); ip != itExc.value().end(); ++ip)
 	{
-
-		m_exclusionsMapNameId[ip.key()] = exclusionId;
-		m_exclusionsMapIdName[exclusionId] = ip.key();
+		string name = ip.key();
 		//int i1 = stoi(ip.value()[0].get<string>().substr(1));
-		int i1 = m_interventionsMapNameId[ip.value()[0].get<string>()];
+		int i1 = m_interventionsMap[ip.value()[0].get<string>()];
 		//int i2 = stoi(ip.value()[1].get<string>().substr(1));
-		int i2 = m_interventionsMapNameId[ip.value()[1].get<string>()];
+		int i2 = m_interventionsMap[ip.value()[1].get<string>()];
 		string s_season = ip.value()[2].get<string>();
 		E_Season m_season;
 
@@ -237,7 +233,7 @@ Data::Data(JsonMap& ar_json)
 		else if (s_season == "summer")
 			m_season = SUMMER;
 
-		Exclusion *ip_exclusion = new Exclusion(i1, i2, m_season);
+		Exclusion *ip_exclusion = new Exclusion(name, i1, i2, m_season);
 		m_exclusions.push_back(ip_exclusion);
 		exclusionId++;
 	}
