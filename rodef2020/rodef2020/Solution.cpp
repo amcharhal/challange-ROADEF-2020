@@ -56,7 +56,7 @@ void Solution::saveSolution(const std::string& ar_outputFile) const
 	{
 		for (int i = 0; i < m_startingTimes.size(); i++)
 		{
-			stream << mp_data->getInterventionName(i) << SPACE << m_startingTimes[i] << endl;
+			stream << mp_data->getIntervention(i)->getName() << SPACE << m_startingTimes[i] << endl;
 		}
 	}
 	else

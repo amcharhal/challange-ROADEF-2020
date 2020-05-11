@@ -59,12 +59,12 @@ public:
 		// m_computationTime
 		serializedJson["ComputationTime"] = data.getComputationTime();
 		// Excusions
-		map<int, string> exclusionMap = data.getExclusionMap();
+		//map<int, string> exclusionMap = data.getExclusionMap();
 		serializedJson["Exclusions"] = json({});
 		for (int exclusionId = 0; exclusionId < data.getNbExclusions(); exclusionId++)
 		{
-			string a_I1 = data.getInterventionName(data.getExclusion(exclusionId)->getI1());
-			string a_I2 = data.getInterventionName(data.getExclusion(exclusionId)->getI2());
+			string a_I1 = data.getIntervention(data.getExclusion(exclusionId)->getI1())->getName();
+			string a_I2 = data.getIntervention(data.getExclusion(exclusionId)->getI2())->getName();
 			E_Season season = data.getExclusion(exclusionId)->getSeason();
 			string s_season;
 			if (season == FULL)
@@ -76,7 +76,7 @@ public:
 			else if (season = SUMMER)
 				s_season = "summer";
 			;
-			serializedJson["Exclusions"][exclusionMap[exclusionId]] = { a_I1, a_I2, s_season };
+			serializedJson["Exclusions"][data.getExclusion(exclusionId)->getName()] = { a_I1, a_I2, s_season };
 		}
 		//season
 		serializedJson["Seasons"]["winter"] = convertVector(*data.getSeasons()->getWinter());
@@ -90,11 +90,11 @@ public:
 			Scenarios_number[i] = data.getScenariosNumber(i + 1);
 		serializedJson["Scenarios_number"] = Scenarios_number;
 		//resources 
-		map<int, string> resourcesMapId = data.getResourcesMapId();
+		//map<int, string> resourcesMapId = data.getResourcesMapId();
 		for (int resourcesId = 0; resourcesId < data.getNbResources(); resourcesId++)
 		{
-			serializedJson["Resources"][resourcesMapId[resourcesId]]["min"] = data.getResource(resourcesId)->getMin();
-			serializedJson["Resources"][resourcesMapId[resourcesId]]["max"] = data.getResource(resourcesId)->getMax();
+			serializedJson["Resources"][data.getResource(resourcesId)->getName()]["min"] = data.getResource(resourcesId)->getMin();
+			serializedJson["Resources"][data.getResource(resourcesId)->getName()]["max"] = data.getResource(resourcesId)->getMax();
 		}
 		//interventons
 		for (int interventionId = 0; interventionId < data.getNbInterventions(); interventionId++)
@@ -112,7 +112,7 @@ public:
 					for (int start_time = 0; start_time < data.getT(); start_time++)
 					{
 						if (data.getIntervention(interventionId)->getWorkload(resource, time_period + 1, start_time + 1) > 0)
-							serializedJson["Interventions"][interventionName]["workload"][resourcesMapId[resource]][to_string(time_period + 1)][to_string(start_time + 1)] =
+							serializedJson["Interventions"][interventionName]["workload"][data.getResource(resource)->getName()][to_string(time_period + 1)][to_string(start_time + 1)] =
 							data.getIntervention(interventionId)->getWorkload(resource, time_period + 1, start_time + 1);
 					}
 				}
@@ -212,7 +212,7 @@ TEST_F(InstanceExemple1Test, scenariosNumber) {
 	for (int i = 0; i < _dataExemple1->getT(); i++)
 		EXPECT_EQ(ex_scenariosNumber[i], _dataExemple1->getScenariosNumber(i + 1));
 }
-
+/*
 TEST(TestExemple1, dataParsing) {
 	string fileName = "example1.json";
 	//create data under dataExemple1 name
@@ -353,6 +353,7 @@ TEST(TestExemple1, dataParsing) {
 	}
 };
 
+*/
 
 TEST(TestA1, A1) {
 	std::string file = "A_01.json";

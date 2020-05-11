@@ -91,7 +91,7 @@ int main()
 		}
 	*/
 	cout << "start read file" << endl;
-	Instance inst("A_10.json");
+	Instance inst("A_07.json");
 	cout << "reading file is done" << endl;
 	SimulatedAnnealing algorithm(&inst);
 

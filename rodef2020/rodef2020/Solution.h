@@ -33,12 +33,12 @@ public:
 
 private:
 	Data* mp_data;
+	// decision variables
 	std::vector<int> m_startingTimes;
 	std::vector<std::vector<bool>> m_xit;
 
-
 	// attributes and methods for objective computation
-	std::vector< std::vector<double>> m_risk_st;	// cumulative planning risk at period t for scenario s (size = T x St)
+	std::vector<std::vector<double>> m_risk_st;		// cumulative planning risk at period t for scenario s (size = T x St)
 	std::vector<double> m_risk_t;					// mean cumulative planning risk at period t (size = T)
 	double m_obj1;									// Mean cost
 	std::vector<double> m_Q_tau_t;					// quantile values (size = T)
@@ -46,6 +46,7 @@ private:
 	double m_obj2;									// expected excess
 	double m_objective;								// planning ranking
 
+	// private methods
 	void computeRisk_st();
 	void computeRisk_t();
 	void computeObj1();
