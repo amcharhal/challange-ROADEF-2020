@@ -129,6 +129,7 @@
     <ClCompile Include="Intervention.cpp" />
     <ClCompile Include="JsonMap.cpp" />
     <ClCompile Include="maincpp.cpp" />
+    <ClCompile Include="MILP.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Seasons.cpp" />
     <ClCompile Include="SimulatedAnnealing.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="Intervention.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="JsonMap.h" />
+    <ClInclude Include="MILP.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Seasons.h" />
     <ClInclude Include="SimulatedAnnealing.h" />

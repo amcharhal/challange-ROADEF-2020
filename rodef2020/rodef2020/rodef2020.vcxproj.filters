@@ -48,6 +48,9 @@
     <ClCompile Include="SimulatedAnnealing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MILP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimulatedAnnealing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MILP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
