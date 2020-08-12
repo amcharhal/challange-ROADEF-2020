@@ -151,6 +151,7 @@
     <ClInclude Include="Solution.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Challenge_Subject.pdf" />
     <None Include="..\Sample-Test1\A_01.json" />
     <None Include="..\Sample-Test1\A_02.json" />
     <None Include="..\Sample-Test1\A_03.json" />

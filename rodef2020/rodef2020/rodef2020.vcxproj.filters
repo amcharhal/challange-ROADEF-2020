@@ -109,5 +109,6 @@
     <None Include="..\Sample-Test1\A_13.json" />
     <None Include="..\Sample-Test1\A_14.json" />
     <None Include="..\Sample-Test1\A_15.json" />
+    <None Include="..\..\Challenge_Subject.pdf" />
   </ItemGroup>
 </Project>
